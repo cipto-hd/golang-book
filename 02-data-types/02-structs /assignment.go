@@ -11,6 +11,10 @@ type Row struct {
 	UnitPrice   float32
 }
 
+func (r Row) string() string {
+	return fmt.Sprintf("%s, %s, %d, %dGBP, %dGBP", r.Title, r.Description, r.Quantity, int(r.UnitPrice), (r.Quantity)*int(r.UnitPrice))
+}
+
 func main() {
 	row := Row{
 		Title:       "LEGO set",
@@ -29,11 +33,14 @@ func main() {
 	basket = append(basket, row)
 	basket = append(basket, row2)
 
+	fmt.Println("Title, Description, Quantity, Price per unit, Total")
+
 	var sum int = 0
 	for i := 0; i < len(basket); i++ {
 		current := basket[i]
-		fmt.Println(current)
+		fmt.Println(current.string())
 		sum += current.Quantity * int(current.UnitPrice)
 	}
-	fmt.Println("Total", sum)
+
+	fmt.Println("\nTotal: ", sum, "GBP")
 }

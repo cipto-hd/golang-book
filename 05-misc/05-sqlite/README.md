@@ -23,11 +23,11 @@ To connect with a sqlite database we've got a few libraries to choose from. Thes
 Refer to this link to see libraries for other databases:
 
 - <https://github.com/golang/go/wiki/SQLDrivers>
-.
+  .
 
 ## Use `sqlite3` from the console
 
-To work with your database, it's beneficial to use sqlite from the command line. Consult the official [downloads page](https://www.sqlite.org/download.html) for sqlite and ensure you pick the executable for your operating system.  Installing sqlite will give you an executable.
+To work with your database, it's beneficial to use sqlite from the command line. Consult the official [downloads page](https://www.sqlite.org/download.html) for sqlite and ensure you pick the executable for your operating system. Installing sqlite will give you an executable.
 
 With the executable, you can:
 
@@ -78,7 +78,7 @@ To talk to your database via Go, there's some steps you need to take in order:
    go mod init "example-project"
    ```
 
-1. **Add imports**. Once you have the needed packages you need to refer to them in the import section:
+1. **Add imports**. Once you have the needed packages, you need to refer to them in the import section and run `go mod tidy`:
 
    ```go
    import (
@@ -100,7 +100,7 @@ To talk to your database via Go, there's some steps you need to take in order:
 1. **Run queries**. At this point, we are free to run queries. You use `Query()` function and give it a SQL statement like in this example:
 
    ```go
-   rows, err := db.Query("SELECT * FROM person")   
+   rows, err := db.Query("SELECT * FROM person")
    ```
 
    To iterate over the results, you can use a for-loop like so:
@@ -143,7 +143,7 @@ To talk to your database via Go, there's some steps you need to take in order:
 
 ## Assignment
 
-In this assignment, we will create a Go program that's able to write and write to the database. We will go all the way from creating the database with the console to writing the Go code needed.
+In this assignment, we will create a Go program that's able to write to and update the database. We will go all the way from creating the database with the console to writing the Go code needed.
 
 ### Create the database and populate it
 
@@ -151,13 +151,13 @@ We will create our database using the sqlite executable in the console.
 
 1. Run `sqlite` to create the database and initialize the sqlite shell:
 
-    ```console
-    sqlite3 mydb.db
-    sqlite3SQLite version 3.32.3 2020-06-18 14:16:19
-    Enter ".help" for usage hints.
-    ```
+   ```console
+   sqlite3 mydb.db
+   sqlite3SQLite version 3.32.3 2020-06-18 14:16:19
+   Enter ".help" for usage hints.
+   ```
 
-    At this point, you have a database created. Next, we need some tables in there.
+   At this point, you have a database created. Next, we need some tables in there.
 
 1. Run the following SQL command in the sqlite shell:
 
@@ -176,9 +176,9 @@ We will create our database using the sqlite executable in the console.
 
    ```sql
     insert into person(name,lastname, created) values ("joe", "schmoo", '2021-01-01');
-    ```
+   ```
 
-    Great, we now have data in our table. Time to focus on the Go code next.
+   Great, we now have data in our table. Time to focus on the Go code next.
 
 1. Run `.exit` to exit the database.
 
@@ -186,34 +186,34 @@ We will create our database using the sqlite executable in the console.
 
 Now we will create a Go project and some code able to access our database.
 
-1. Create *db.go* and give it this content:
+1. Create _db.go_ and give it this content:
 
-    ```go
-    package main
-    
-    import (
-     "database/sql"
-     "fmt"
-     "log"
-     _ "github.com/mattn/go-sqlite3"
-    )
-    
-    func main() {
-     db, err := sql.Open("sqlite3", "./mydb.db")
-     if err != nil {
-      log.Fatal(err)
-     }
-     fmt.Println("database open")
-    
-     fmt.Println("bye")
-    
-     fmt.Println("closing db")
-     db.Close()
-    
+   ```go
+   package main
+
+   import (
+    "database/sql"
+    "fmt"
+    "log"
+    _ "github.com/mattn/go-sqlite3"
+   )
+
+   func main() {
+    db, err := sql.Open("sqlite3", "./mydb.db")
+    if err != nil {
+     log.Fatal(err)
     }
-    ```
+    fmt.Println("database open")
 
-    Next, lets initialize our Go project.
+    fmt.Println("bye")
+
+    fmt.Println("closing db")
+    db.Close()
+
+   }
+   ```
+
+   Next, lets initialize our Go project.
 
 1. Run the following commands to create our project:
 
@@ -236,7 +236,7 @@ Next, we will add a function capable of reading data.
    ```go
    func Read(db *sql.DB) {
      rows, err := db.Query("SELECT * FROM person")
-     
+
     }
    ```
 
@@ -261,7 +261,7 @@ Next, we will add a function capable of reading data.
    }
    ```
 
-   Not the usage of `Scan()` and variables being sent in as references so the response is written to them.
+   Note, the usage of `Scan()` and variables being sent in as references so the response is written to them.
 
 ### Create data
 
@@ -272,7 +272,7 @@ Now we will create code that will allow us to create data in our database.
    ```go
    func Create(db *sql.DB) {
      stmt, err := db.Prepare("INSERT INTO person(name, lastname, created) values(?,?,?)")
-     
+
    }
    ```
 
@@ -292,7 +292,7 @@ Now we will create code that will allow us to create data in our database.
      log.Printf("Affected rows %d", affected)
    ```
 
-   Note the call to `Exec()`, here you are providing  data and `?` is being replaced by the values you send in. Also note the last two rows:
+   Note the call to `Exec()`, here you are providing data and `?` is being replaced by the values you send in. Also note the last two rows:
 
    ```go
    affected, _ := res.RowsAffected()

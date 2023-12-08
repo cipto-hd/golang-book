@@ -70,15 +70,15 @@ cities := [5]string{"NY", "LA"}
 
 - **length**. The length is defined as the number of elements in the array. You can use the `len()` method to find this out:
 
-   ```go
-   len(cities) // 2
-   ```
+  ```go
+  len(cities) // 5
+  ```
 
 - **capacity**. The capacity is how many elements the array can hold. `cap()` is the method you use to find the capacity:
 
-   ```go
-   cap(cities) // 5
-   ```
+  ```go
+  cap(cities) // 5
+  ```
 
 ## Slices
 
@@ -120,7 +120,7 @@ Remove an element by constructing a new slice.
 ```go
 letters := []string{"A", "B", "C", "D", "E"}
 remove := 2 // remove index
-// 0 - remove index, remove +1 to end   
+// 0 - remove index, remove +1 to end
 letters = append(letters[:remove], letters[remove+1:]...)
 // [A B D E]
 ```
@@ -232,7 +232,7 @@ func main() {
    fmt.Scan(&response)
 
    // save entry to list
-   arr = append(arr, response)   
+   arr = append(arr, response)
    fmt.Println("Saving entry")
   } else if response == "list" {
    // list entries

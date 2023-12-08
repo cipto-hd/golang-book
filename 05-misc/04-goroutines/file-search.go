@@ -1,14 +1,14 @@
 package main
 
 import (
-	"io/ioutil"
 	"log"
+	"os"
 	"path/filepath"
 )
 
 func SearchFiles(dir string, lookFor string) string {
 	log.Println("[SEARCHING] ", dir)
-	files, err := ioutil.ReadDir(dir)
+	files, err := os.ReadDir(dir)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -24,5 +24,7 @@ func SearchFiles(dir string, lookFor string) string {
 
 func main() {
 	result := make([]string, 0)
-	go append(result, SearchFiles("./test", "test2.txt"))
+	go func() {
+		result = append(result, SearchFiles("./test", "test2.txt"))
+	}()
 }

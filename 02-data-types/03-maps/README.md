@@ -104,7 +104,7 @@ delete(phonebook, 555404)
 Here are your contacts:
 
 ```output
-Alice 555-123 
+Alice 555-123
 Bob 555-124
 Jean 555-125
 ```
@@ -115,7 +115,7 @@ Command> store
 Enter contact: Rob 555-126
 Contact saved
 Command> list
-Alice 555-123 
+Alice 555-123
 Bob 555-124
 Jean 555-125
 Rob 555-126
@@ -131,39 +131,46 @@ HINT: you might need to use both a map and a slice.
 ```go
 package main
 
-import "fmt"
+import (
+	"fmt"
+)
 
 func main() {
- var command string
- contacts := make(map[string]string)
- fmt.Println("Welcome to your phonebook")
+	var command string
+	contacts := make(map[string]string)
+	fmt.Println("Welcome to your phonebook")
 
- for {
-  fmt.Print("Command> ")
-  fmt.Scan(&command)
-  if command == "store" {
-   fmt.Print("Enter contact: ")
-   var contact string
-   var no string
-   fmt.Scan(&contact, &no)
-   contacts[contact] = no
-   fmt.Println("Contact saved")
-  } else if command == "list" {
-   for key, value := range contacts {
-    fmt.Println(key, value)
-   }
-  } else if command == "lookup" {
-   fmt.Print("Enter name: ")
-   var contact string
-   fmt.Scan(&contact)
-   fmt.Println(contacts[contact])
-  } else if command == "quit" {
-   break
-  } else {
-   fmt.Println("Unknown command: ", command)
-  }
- }
- fmt.Println("Bye")
+	for {
+		fmt.Print("Command> ")
+		fmt.Scan(&command)
+		if command == "store" {
+			fmt.Print("Enter contact: ")
+			var contact string
+			var no string
+			fmt.Scan(&contact, &no)
+			contacts[contact] = no
+			fmt.Println("Contact saved")
+		} else if command == "list" {
+			for key, value := range contacts {
+				fmt.Println(key, value)
+			}
+		} else if command == "lookup" {
+			fmt.Print("Enter name: ")
+			var contact string
+			fmt.Scan(&contact)
+			lookedUpContactNumber := contacts[contact]
+			if lookedUpContactNumber == "" {
+				lookedUpContactNumber = "No contact found."
+			}
+			fmt.Printf("%s has number: %s\n", contact, lookedUpContactNumber)
+
+		} else if command == "quit" {
+			break
+		} else {
+			fmt.Println("Unknown command: ", command)
+		}
+	}
+	fmt.Println("Bye")
 }
 
 ```
@@ -178,4 +185,57 @@ Enter name: Jane
 Contact doesn't exist, do you want to add it? y/n: y
 Enter contact: Jane 123
 Contact saved
+```
+
+## Solution (Please try by yourselft first)
+
+```go
+package main
+
+import (
+	"fmt"
+)
+
+func main() {
+	var command string
+	contacts := make(map[string]string)
+	fmt.Println("Welcome to your phonebook")
+
+	for {
+		fmt.Print("Command> ")
+	scanning:
+		fmt.Scan(&command)
+		if command == "store" || command == "y" {
+			fmt.Print("Enter contact: ")
+			var contact string
+			var no string
+			fmt.Scan(&contact, &no)
+			contacts[contact] = no
+			fmt.Println("Contact saved")
+		} else if command == "list" {
+			for key, value := range contacts {
+				fmt.Println(key, value)
+			}
+		} else if command == "lookup" {
+			fmt.Print("Enter name: ")
+			var contact string
+			fmt.Scan(&contact)
+			lookedUpContactNumber := contacts[contact]
+			if lookedUpContactNumber == "" {
+				for {
+					fmt.Print("Contact doesn't exist, do you want to add it? y/n: ")
+					goto scanning
+				}
+			}
+			fmt.Printf("%s has number: %s\n", contact, lookedUpContactNumber)
+
+		} else if command == "quit" {
+			break
+		} else {
+			fmt.Println("Unknown command/answer: ", command)
+		}
+	}
+	fmt.Println("Bye")
+}
+
 ```

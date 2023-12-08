@@ -19,7 +19,7 @@ My hope is by you reading this chapter, that you will find RegEx less intimidati
 RegEx shows up in many different contexts:
 
 - **Text editors, any programs with a search**. In most text editors, for example Visual Studio Code, you can search for files and inside of files with a RegEx search pattern.
-- **Code**, many programming languages and runtimes have libraries that helps you use RegEx.  
+- **Code**, many programming languages and runtimes have libraries that helps you use RegEx.
 
 ## Your first RegEx
 
@@ -47,22 +47,22 @@ To start using RegEx in Go, there's the regexp library. There are two approaches
 
 - `regexp` directly, here's an example:
 
-   ```go
-   matched, err := regexp.FindString("an", "highlands is a part of Scotland")
-   ```
+  ```go
+  matched, __ := regexp.MatchString("an", "highlands is a part of Scotland")
+  ```
 
-   Here, you get a boolean back that returns true if there's a match.
+  Here, you get a boolean back that returns true if there's a match.
 
 - **compiled**, in this way, you compile a regular expression and then calls a method on it, like so:
 
-   ```go
-   r, _ := regexp.Compile("an")
-   matches := r.FindAllString("highlands is a part of Scotland", -1)
-   ```
+  ```go
+  r, _ := regexp.Compile("an")
+  matches := r.FindAllString("highlands is a part of Scotland", -1)
+  ```
 
-   The above returns a string array with all the matches, in this case `["an", "an"]`.
+  The above returns a string array with all the matches, in this case `["an", "an"]`.
 
-   In this version, you have more functions available.  
+  In this version, you have more functions available.
 
 ## Character classes
 
@@ -70,19 +70,19 @@ Character classes are able to distinguish between different types of characters.
 
 Let's have a look at some common types you are likely to encounter:
 
-|Type  |Description  |
-|---------|---------|
-|.     | This type matches any character except for a carriage return        |
-|\     | This type escapes what's coming next        |
-| \w | matches any character from the latin alphabet including underscore _ |
-| \d | matches any digit |
-| \D | this is the inverse of \d and matches any character that's not a digit |
-| \s | matches a white space character like space tab, line feed etc. |
+| Type | Description                                                            |
+| ---- | ---------------------------------------------------------------------- |
+| .    | This type matches any character except for a carriage return           |
+| \    | This type escapes what's coming next                                   |
+| \w   | matches any character from the latin alphabet including underscore \_  |
+| \d   | matches any digit                                                      |
+| \D   | this is the inverse of \d and matches any character that's not a digit |
+| \s   | matches a white space character like space, tab, line feed etc.        |
 
 Lets show an example:
 
 ```go
-matched, err := regexp.FindString("\d", "abc123")
+matched, err := regexp.MatchString("\\d", "abc123")
 ```
 
 There would be a match above due to 123. However, there would be no match against "abc" as there's no digits in it.
@@ -93,56 +93,56 @@ If you want to express repetition, there's two characters of interest:
 
 - `+`, matches 1 to many characters.
 
-   ```text
-   \w+
-   ```
+  ```text
+  \w+
+  ```
 
-   Given the string "aaaa bab" it would match:  
+  Given the string "aaaa bab" it would match:
 
-   **aaaaab** **bab** as the above describes matching characters but not the white space.
+  **aaaaab** **bab** as the above describes matching characters but not the white space.
 
-   ```go
-   r, _ := regexp.Compile("\\w+")
-   matches := r.FindAllString("aaaa bab", -1)
-   ```
+  ```go
+  r, _ := regexp.Compile("\\w+")
+  matches := r.FindAllString("aaaa bab", -1)
+  ```
 
-   Note the extra `\`, we need that because of the way we construct our Regex.
+  Note the extra `\`, we need that because of the way we construct our Regex.
 
 - `*`, matches 0 to many characters. Lets say you want to match a postal address that starts with "PA" and may contain 0 or many numbers. It should then match strings:
 
-   ```text
-   PA
-   PA111 
-   ```
+  ```text
+  PA
+  PA111
+  ```
 
-   We can use a `*` to construct this looking like so:
+  We can use a `*` to construct this looking like so:
 
-   ```go
-   regexp.MatchString("PA*", "PA")
-   regexp.MatchString("PA*", "PA111")
-   ```
+  ```go
+  regexp.MatchString("PA*", "PA")
+  regexp.MatchString("PA*", "PA111")
+  ```
 
 - `?`, also known as a greedy or optional quantifier. It looks backwards and makes it optional and takes it, if it can. Consider this case:
 
-   ```text
-   http
-   https
-   ```  
+  ```text
+  http
+  https
+  ```
 
-   If you want to match them both, you can type:
+  If you want to match them both, you can type:
 
-   ```text
-   https?
-   ```  
+  ```text
+  https?
+  ```
 
-   Another example is:
+  Another example is:
 
-   ```text
-   r, _ := regexp.Compile("an.")
-   matches := r.FindAllString("and ant an", -1)
-   ```
+  ```text
+  r, _ := regexp.Compile("an.")
+  matches := r.FindAllString("and ant an", -1)
+  ```
 
-   The above will only match **and** and **ant** but not *an*. If we modify the regex to `an.?` it will match **and ant an**.
+  The above will only match **and** and **ant** but not _an_. If we modify the regex to `an.?` it will match **and ant an**.
 
 ## Anchors and boundaries
 
@@ -150,22 +150,22 @@ There are different anchors you can use like for example:
 
 - `^`, beginning of the string. The following states that the string needs to begin with the following string "INV" to signify the start of an invoice row:
 
-   ```text
-   ^INV
-   ```
+  ```text
+  ^INV
+  ```
 
 - `$`, end of the string. An example could be matching a string ends with a certain domain ".com":
 
-   ```text
-   \.com$
-   ```
+  ```text
+  \.com$
+  ```
 
 ## Groups
 
 Groups are way to capture part of a string and have that returned. It's very useful for parsing out the info you need. Consider this example parsing out the info from a CSV row:
 
 ```text
-Name: myarticle, Price: 114, Quantity: 3 
+Name: myarticle, Price: 114, Quantity: 3
 ```
 
 To get the data you need, you want everything after the colon, :. You can construct a RegEx like so:
@@ -222,27 +222,38 @@ r, err := regexp.Compile(`(?P<mygroup>\w+):`)
 
 ### Extract the data from a URL
 
-Let's approach this problem then given the string "http://myapi.com/products?page=1":
+Let's approach this problem then given the string "http://myapi.com/products?page=1&offset=2":
 
 - matching the protocol:
 
-    ```text
-    ^(?<protocol>\w+):
-    ```
+  ```text
+  ^(?<protocol>\w+):
+  ```
 
 - domain, to match the domain as well, we're looking to capture everything after http:// and until the next /:
 
-   ```text
-   ^(?<protocol>\w+):\/\/(?<domain>\w+\.\w+)\/?
-   ```
+  ````text
+  ^(?<protocol>\w+):\/\/(?<domain>\w+\.\w+)\/?
+  ```<params>
+
+  ````
 
 - route, ok so we've matched up "http://mydomain.com" so far, now lets match the route, i.e what happens after the / but before any questions marks, ?
+
+  ```text
+  ^(?<protocol>\w+):\/\/(?<domain>\w+\.\w+)\/?(?<route>\w+)?\/?
+  ```
+
 - query params
+
+  ```text
+  ^(?<protocol>\w+):\/\/(?<domain>\w+\.\w+)\/?(?<route>\w+)?\??(?<query>.*)?
+  ```
 
 Here's what our Go code would look like:
 
 ```go
-r, err := regexp.Compile(`^(?P<protocol>\w+):\/\/(?P<domain>\w+\.\w+)\/(?P<route>\w+)\/?`)
+r, err := regexp.Compile(`^(?P<protocol>\w+):\/\/(?P<domain>\w+\.\w+)\/?(?P<route>\w+)?\??(?P<query>.*)?`)
 ```
 
 Ok, so we have the pattern, what about printing the parsed parts?
@@ -250,7 +261,7 @@ Ok, so we have the pattern, what about printing the parsed parts?
 To pair the named groups with their values, we need to combine values from both the Regex and the response. First, we call `FindStringSubmatch()`, that will give us the values.
 
 ```go
-m := r.FindStringSubmatch("http://myapi.com/products")
+m := r.FindStringSubmatch("http://myapi.com/products?page=1&offset=2")
 ```
 
 Then, we need to match the names with these values. We will need to call `r.SubexpNames()` and iterate over the response.
@@ -276,9 +287,10 @@ Finally, to get the values, we can print them out as they are now in a map struc
 fmt.Println(result["protocol"]) // http
 fmt.Println(result["domain"]) // myapi.com
 fmt.Println(result["route"]) // products
+fmt.Println(result["query"]) // page=1&offset=2
 ```
 
-## Assignment - create a Go program that parses a URL
+## Assignment I - create a Go program that parses a URL
 
 From the above use case on named groups, write a Go program that takes a URL and analyzes it. It should work like so:
 
@@ -290,7 +302,7 @@ domain: myapi.com
 route: products
 ```
 
-### Solution
+### Solution I
 
 ```go
 package main
@@ -392,7 +404,7 @@ Well, it would be straight forward to replace title by name. Let's say we have t
 </books>
 ```
 
-Then we would not only rename the element `title` to `name` but also the content would be replaced o "The title is Romeo and Juliet", that's NOT what we want.
+Then we would not only rename the element `title` to `name` but also the content would be replaced to "The name is Romeo and Juliet", that's NOT what we want.
 
 We need to restrict the replace operation to only target element, like so:
 
@@ -403,13 +415,13 @@ We need to restrict the replace operation to only target element, like so:
 The above would match for example `<title>` and `</title>`. If we try this however on this XML, we almost get what we want:
 
 ```xml
-<author>Shakespeare</author>
+<title>The title is Romeo and Juliet</title>
 ```
 
 becomes
 
 ```xml
-nameShakespearename
+nameThe title is Romeo and Julietname
 ```
 
 What happened, why did we loose `<>` ? We need a way to express keeping what was there before AND replace the name. A way to do that is to express capture groups on `<>` and the element name, like so:
@@ -428,9 +440,9 @@ ${1}name${3}
 - `name` is the string we replace `title` with.
 - `{3}` corresponds to capture group matching `>`.
 
-## Assignment - replace content
+## Assignment II - replace content
 
-Take the file *books.xml* containing:
+Take the file _books.xml_ containing:
 
 ```xml
 <books>
@@ -486,7 +498,7 @@ func main() {
     </book>
 </books>`
 
- r := regexp.MustCompile(`(\<\/?)(title)(\>)`)
+ r := regexp.MustCompile(`(\<\/?)(author)(\>)`)
  s := r.ReplaceAllString(file, "${1}name${3}")
  fmt.Println(s)
 

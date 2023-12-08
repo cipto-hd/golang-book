@@ -20,18 +20,20 @@ Here's an example of what the format looks like:
 
 ```json
 {
-  "products": [{
-    "id": 1,
-    "name": "a product"
-  },
-  {
-    "id": 2,
-    "name": "another product"
-  }]
+  "products": [
+    {
+      "id": 1,
+      "name": "a product"
+    },
+    {
+      "id": 2,
+      "name": "another product"
+    }
+  ]
 }
 ```
 
-The above depicts a list of products. Each key needs to be encased with quotes and values can be everything from primitives like numbers, strings, Booleans etc to more complex types like an array or an object.
+The above depicts a list of products. Each key needs to be encased with quotes and values can be everything from primitives like numbers, strings, booleans etc to more complex types like an array or an object.
 
 what is this format, and what contexts is it used in.
 
@@ -43,7 +45,7 @@ To read JSON data you need to first have a structure in your Go code read to map
 
 ```json
 {
-  "products" : [
+  "products": [
     {
       "id": 1,
       "name": "some product"
@@ -81,19 +83,19 @@ So that means, we need to add the following annotations to our above created str
 
 ```go
 type Product struct {
-  Id int `json: "id"`
-  Name string `json: "name"`
+  Id int `json:"id"`
+  Name string `json:"name"`
 }
 
 type Response struct {
-  Products []Product `json: "products"`
+  Products []Product `json:"products"`
 }
 ```
 
 What these annotations do is to say, in the JSON data, look for properties with these names and map them to the following property. Like in this example from above:
 
 ```go
-Id int `json: "id"`
+Id int `json:"id"`
 ```
 
 ### Reading the data
@@ -103,12 +105,12 @@ Ok, so we've defined the structures in Go that we will map our JSON data to. So 
 - a string literal, like so `{ "name": "my product", "id": 1 }`
 - in a JSON file:
 
-   ```json
-   {
-     "id": 1,
-     "name": "my product"
-   }
-   ```
+  ```json
+  {
+    "id": 1,
+    "name": "my product"
+  }
+  ```
 
 Let's show how to work with both approaches:
 
@@ -136,7 +138,7 @@ Note how we also convert the response to a byte array `[]byte(str)` and how the 
 
 **read from a file**
 
-To read from a file, we will use the `io/ioutil` library and its `ReadFile()` function. Like with the string literal, the `Unmarshal()` function will be used to write the data to a struct instance.
+To read from a file, we will use the ~~`io/ioutil`~~ `os` library and its `ReadFile()` function. Like with the string literal, the `Unmarshal()` function will be used to write the data to a struct instance.
 
 ```go
 package main
@@ -144,10 +146,7 @@ package main
 import (
  "encoding/json"
  "fmt"
- "io/ioutil"
- "iohelper/dir"
- "iohelper/file"
- "log"
+ "os"
 )
 
 type Products struct {
@@ -160,7 +159,7 @@ type Product struct {
 }
 
 func main(){
-  file, _ := ioutil.ReadFile("products.json")
+  file, _ := os.ReadFile("products.json")
 
   data := Products{}
 
@@ -193,8 +192,8 @@ import (
 )
 
 type Person struct {
-  Id int `json: "id"`
-  Name string`json: "name"`
+  Id int `json:"id"`
+  Name string`json:"name"`
 }
 
 func main() {
@@ -207,31 +206,31 @@ func main() {
   aPerson, _ := json.Marshal(&person)
   fmt.Println(string(aBoolean)) // true
   fmt.Println(string(aString))  // a string
-  fmt.Println(string(person))  // { "id": 1, "name": "a person" }
+  fmt.Println(string(aPerson))  // { "id": 1, "name": "a person" }
 }
 ```
 
 ## Assignment
 
-Given the following file *response.json*, find a way to read the data and display it on the screen:
+Given the following file _response.json_, find a way to read the data and display it on the screen:
 
 ```json
 {
   "orders": [
-   {
-    "id": 1,
-    "items": [
-      { "id": 1, "quantity": 3, "total": 34.3 },
-     { "id": 2, "quantity": 2, "total": 17.8 }
-    ]
-   },
-   {
-    "id": 2,
-    "items": [
-      { "id": 3, "quantity": 3, "total": 10.0 },
-      { "id": 4, "quantity": 2, "total": 100.5 }
-    ]
-   }
+    {
+      "id": 1,
+      "items": [
+        { "id": 1, "quantity": 3, "total": 34.3 },
+        { "id": 2, "quantity": 2, "total": 17.8 }
+      ]
+    },
+    {
+      "id": 2,
+      "items": [
+        { "id": 3, "quantity": 3, "total": 10.0 },
+        { "id": 4, "quantity": 2, "total": 100.5 }
+      ]
+    }
   ]
 }
 ```
@@ -244,26 +243,26 @@ package main
 import (
  "encoding/json"
  "fmt"
- "io/ioutil"
+ "os"
 )
 
 type OrderItem struct {
- Id       int     `json: "id"`
- Quantity int     `json: "quantity"`
- Total    float32 `json: "total"`
+ Id       int     `json:"id"`
+ Quantity int     `json:"quantity"`
+ Total    float32 `json:"total"`
 }
 
 type Order struct {
- Id    int         `json: "id"`
- Items []OrderItem `json: items`
+ Id    int         `json:"id"`
+ Items []OrderItem `json:"items"`
 }
 
 type Response struct {
- Orders []Order `json: orders`
+ Orders []Order `json:"orders"`
 }
 
 func main() {
- file, _ := ioutil.ReadFile("orders.json")
+ file, _ := os.ReadFile("orders.json")
 
  data := Response{}
 
@@ -295,6 +294,10 @@ See if you can add `products` to your JSON file. Here's the JSON for it:
 ```
 
 What structs do you need and how would you iterate over them?
+
+## Trial (Try by yourself)
+
+Check out `products.go`
 
 ## Learn more
 

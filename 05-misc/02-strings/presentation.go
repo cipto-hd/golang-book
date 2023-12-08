@@ -15,6 +15,6 @@ func main() {
 	person := Person{Name: "Jean Normand", Address: "123 Way", City: "Washington"}
 
 	fmt.Println(strings.ToLower(person.Name))
-	fmt.Println(person.Address)
-	fmt.Println(strings.ToUpper(person.City))
+	fmt.Println(strings.ToUpper(person.Address))
+	fmt.Println(person.City)
 }

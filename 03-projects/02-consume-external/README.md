@@ -43,7 +43,7 @@ Here's an example:
 
 ```go
 package main
-    
+
 import (
 "fmt"
 "github.com/softchris/math"
@@ -60,41 +60,41 @@ Let's create a new project
 
 1. Run `go mod init`:
 
-    ```go
-    go mod init hello
-    ```
+   ```go
+   go mod init hello
+   ```
 
-    Note how *go.mod* was created with the following content:
+   Note how _go.mod_ was created with the following content:
 
-    ```go
-    module hello
-    
-    go 1.16
-    ```
+   ```go
+   module hello
+
+   go 1.16
+   ```
 
 ### Add reference to an external lib
 
 Next, lets create some code that will use the external library:
 
-1. Create the file *main.go*
+1. Create the file _main.go_
 
-    ```go
-    package main
-    
-    import (
-      "fmt"
-      "github.com/softchris/math"
-    )
-    ```
+   ```go
+   package main
+
+   import (
+     "fmt"
+     "github.com/softchris/math"
+   )
+   ```
 
 1. To the same file, add a `main()` function and call the external `Add` method from the `math` package:
 
-    ```go
-    func main() {
-      sum := math.Add(1,2)
-      fmt.Println(sum)
-    }
-    ```
+   ```go
+   func main() {
+     sum := math.Add(1,2)
+     fmt.Println(sum)
+   }
+   ```
 
 ### Fetch the lib
 
@@ -102,25 +102,25 @@ Now, we need to resolve the external library.
 
 1. Run `go mod tidy`:
 
-    ```bash
-    go mod tidy
-    ```
+   ```bash
+   go mod tidy
+   ```
 
-    Your *go.mod* is updated:
+   Your _go.mod_ is updated:
 
-    ```go
-    require github.com/softchris/math v0.2.0
-    ```
+   ```go
+   require github.com/softchris/math v0.2.0
+   ```
 
-    There's also *go.sum* file with the following content:
+   There's also _go.sum_ file with the following content:
 
-    ```go
-    github.com/softchris/math v0.2.0 h1:88L6PLRBGygS3LY5KGIJhyw9IZturmd2ksU+p13OPa4=
+   ```go
+   github.com/softchris/math v0.2.0 h1:88L6PLRBGygS3LY5KGIJhyw9IZturmd2ksU+p13OPa4=
 
-    github.com/softchris/math v0.2.0/go.mod h1:v8WzhjKC+ipuH+i9IZ0Ta2IArniTP53gc5TgCINCqAo=
-    ```
+   github.com/softchris/math v0.2.0/go.mod h1:v8WzhjKC+ipuH+i9IZ0Ta2IArniTP53gc5TgCINCqAo=
+   ```
 
-    This is Go's way of keeping track of how to build the app by referencing to the go module in question.
+   This is Go's way of keeping track of how to build the app by referencing to the go module in question.
 
 1. Run `go run`:
 
@@ -159,7 +159,7 @@ main.go
 
 ```go
 package main
-    
+
 import (
   "fmt"
   "github.com/softchris/math"
@@ -174,3 +174,18 @@ func main() {
 ## Challenge
 
 See if you can find another module you want to use in your project. Add it to the project and use it in your code.
+
+## Trial (Try by yourself)
+
+```go
+package main
+
+import (
+	"github.com/softchris/logger"
+)
+
+func main() {
+	logger.Log("hey there")
+}
+
+```

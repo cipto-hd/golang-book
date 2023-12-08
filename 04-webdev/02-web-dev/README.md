@@ -16,7 +16,7 @@ In this chapter, you will learn the following:
 
 Common responsibilities for web services are to respond to requests:
 
-- **asking for data** and serve data like JSON, XML images, CSS, HTML
+- **asking for data** and serve data like JSON, XML, images, CSS, HTML
 - **asking to modify a resource** either by creating, updating, or deleting it.
 
 ## The `net/http` library
@@ -29,7 +29,7 @@ There's a library `net/http` that will help us build a web server. Building a we
 
 ### Create a server instance
 
-In `net/http`,  `http` represents your service instance.
+In `net/http`, `http` represents your service instance.
 
 ```go
 import (
@@ -100,11 +100,11 @@ To serve a specific type of content, there are two things you need to do:
 
 - **set the content type**, you set the content type by calling:
 
-   ```go
-   w.Header().Set("Content-Type", "image/jpeg")
-   ```
+  ```go
+  w.Header().Set("Content-Type", "image/jpeg")
+  ```
 
-   Here the content type is an image of subtype jpeg. There are many content types you could be setting like plain text, CSS, JSON, XML and more.
+  Here the content type is an image of subtype jpeg. There are many content types you could be setting like plain text, CSS, JSON, XML and more.
 
 - **produce the response**. Producing a response means writing to the response stream. That can be done by calling the `Write()` method on the `ResponseWriter` instance we are passed when we handle a route. There are other methods capable of writing to said stream as well.
 
@@ -114,15 +114,15 @@ To serve an image, you need to load it into memory, set the content type and wri
 
 ```go
 func GetImage(w http.ResponseWriter, r *http.Request) {
-    f, _ := os.Open("/image.jpg")
-    
+    f, _ := os.Open("./image.jpg")
+
     // Read the entire JPG file into memory.
     reader := bufio.NewReader(f)
-    content, _ := ioutil.ReadAll(reader)
-    
+    content, _ := io.ReadAll(reader)
+
     // Set the Content Type header.
     w.Header().Set("Content-Type", "image/jpeg")
-    
+
     // Write image to the response.
     w.Write(content)
 }
@@ -130,28 +130,28 @@ func GetImage(w http.ResponseWriter, r *http.Request) {
 
 - First, we open the image:
 
-   ```go
-   f, _ := os.Open("/image.jpg")
-   ```
+  ```go
+  f, _ := os.Open("./image.jpg")
+  ```
 
 - Secondly, we read the file into memory:
 
-   ```go
-   reader := bufio.NewReader(f)
-   content, _ := ioutil.ReadAll(reader)
-   ```
+  ```go
+  reader := bufio.NewReader(f)
+  content, _ := io.ReadAll(reader)
+  ```
 
 - Thirdly, set the `Content-Type` header and tell it it's a JPEG image, with the value "image/jpeg":
 
-   ```go
-   w.Header().Set("Content-Type", "image/jpeg")
-   ```
+  ```go
+  w.Header().Set("Content-Type", "image/jpeg")
+  ```
 
 - Finally, we write the content to the response:
 
-   ```go
-   w.Write(content)
-   ```
+  ```go
+  w.Write(content)
+  ```
 
 ### Serving JSON data
 
@@ -187,24 +187,24 @@ func main() {
 
 - First, we set the content type, by setting the value "application/json":
 
-   ```go
-   w.Header().Set("Content-Type", "application/json")
-   ```
+  ```go
+  w.Header().Set("Content-Type", "application/json")
+  ```
 
 - Secondly, we construct the data we are about to send out:
 
-   ```go
-   p := Person {
-    Id: 1
-    Name: "a person"
+  ```go
+  p := Person {
+   Id: 1
+   Name: "a person"
   }
-   ```
+  ```
 
 - Finally, we encode the data as JSON and write it to the response stream:
 
-   ```go
-   json.NewEncoder(w).Encode(p)
-   ```
+  ```go
+  json.NewEncoder(w).Encode(p)
+  ```
 
 It's also possible to use the `Marshal()` function like so, instead of `json.NewEncoder()`:
 
@@ -219,21 +219,21 @@ There are various ways, additionally to headers, to instruct the server program 
 
 - **HTTP verb**, the HTTP verb expresses intention. The POST verb means to create a resource and the GET verb says to only read the data for example. There are many HTTP verbs that we will cover later in this chapter. These two below requests mean different things:
 
-   ```text
-   GET /products # fetching a list of products
-   POST /products # creating a new product resource
-   ```
+  ```text
+  GET /products # fetching a list of products
+  POST /products # creating a new product resource
+  ```
 
 - **body**, The body can contain a payload, data we can use to create or update a resource usually. Here's an example:
 
-   ```json
-   {
-     "name" : "a new product" 
-   }
-   ```
+  ```json
+  {
+    "name": "a new product"
+  }
+  ```
 
 - **router parameters**. As part of a route request, you can have parameters that carry meaning. If the client asks for the route `/products/5` then the 5 can mean the calling client is after a specific product whose unique identifier is 5.
-- **query parameter**. At the end of the route, there can be a query section. That section can give further instruction to the request to for example reduce the size of the returning data. Does the query part start with a question mark? and is followed by key-value pairs separated by ampersands, &. It can look like so: `/products?page=1&pageSize=20`  
+- **query parameter**. At the end of the route, there can be a query section. That section can give further instruction to the request to for example reduce the size of the returning data. Does the query part start with a question mark? and is followed by key-value pairs separated by ampersands, &. It can look like so: `/products?page=1&pageSize=20`
 
 ### Parsing a body
 
@@ -334,7 +334,7 @@ There's also defined constant like `MethodGet`, `MethodPost` on `http`, so you c
 ```go
 func handleRoute(w http.ResponseWriter, r *http.Request) {
   if r.Method == http.MethodGet {
-    fmt.Println("It's a GET request") 
+    fmt.Println("It's a GET request")
   }
 }
 ```
@@ -372,7 +372,7 @@ func handleRequest(w http.ResponseWrite, r *http.Request) {
 }
 
 func main() {
-  http.HandleFunc("/hello", handleRequest) 
+  http.HandleFunc("/hello", handleRequest)
   http.ListenAndServe(":8090", nil)
 }
 ```

@@ -18,7 +18,7 @@ Let's start with a simple scenario, you have an account balance. You might store
 accountBalance int32
 ```
 
-Now that's great, but if you want to describe something more complex, like a bank account? A bank account consists of a variety of information like an ID, balance, account owner and so on. You could try representing each one of those properties as integers like so:
+Now that's great, but if you want to describe something more complex, like a bank account? A bank account consists of a variety of information like an ID, balance, account owner and so on. You could try representing each one of those properties as integers and string like so:
 
 ```go
 var accountBalance int32
@@ -74,18 +74,18 @@ To create an instance from a struct, we can use one of two approaches:
 
 - **define a variable**, and set the fields after the variable declaration:
 
-   ```go
-   var address Address
-   address.city = "London"
-   address.street = "Buckingham palace"
-   address.postal = "SW1"
-   ```
+  ```go
+  var address Address
+  address.city = "London"
+  address.street = "Buckingham palace"
+  address.postal = "SW1"
+  ```
 
 - **define all at once**, we can set all the values in one go as well:
 
-   ```go
-   address2 := Address{"New York", "Central park", "111"}
-   ```
+  ```go
+  address2 := Address{"New York", "Central park", "111"}
+  ```
 
 ## Embedding a struct
 
@@ -143,7 +143,7 @@ func (a Address) string() string {
 }
 ```
 
-We've added a `string()` method. The method *belongs* to `Address` and we can see that with `(...)` right after the `func` keyword that takes `a Address`. The rest of the implementation returns a formatted string via `Sprintf()`.  Given the following code:
+We've added a `string()` method. The method _belongs_ to `Address` and we can see that with `(...)` right after the `func` keyword that takes `a Address`. The rest of the implementation returns a formatted string via `Sprintf()`. Given the following code:
 
 ```go
 var address Address
@@ -167,7 +167,7 @@ Here's example data:
 
 ```output
 Title, Description, Quantity, Price per unit, Total
-LEGO set, 4000 pieces, 1, 600GBP, 600GBP 
+LEGO set, 4000 pieces, 1, 600GBP, 600GBP
 ```
 
 ### Write a program representing the shopping basket
@@ -177,7 +177,7 @@ Write a program that iterates over the shopping basket and calculates the total:
 ```output
 Title, Description, Quantity, Price per unit, Total
 LEGO set, 4000 pieces, 1, 600GBP, 600GBP
-Plushy, plush toy, 3, 5 GBP, 15GBP 
+Plushy, plush toy, 3, 5 GBP, 15GBP
 
 Total: 615 GBP
 ```
@@ -217,41 +217,48 @@ Part II
 package main
 
 import (
- "fmt"
+	"fmt"
 )
 
 type Row struct {
- Title       string
- Description string
- Quantity    int
- UnitPrice   float32
+	Title       string
+	Description string
+	Quantity    int
+	UnitPrice   float32
+}
+
+func (r Row) string() string {
+	return fmt.Sprintf("%s, %s, %d, %dGBP, %dGBP", r.Title, r.Description, r.Quantity, int(r.UnitPrice), (r.Quantity)*int(r.UnitPrice))
 }
 
 func main() {
- row := Row{
-  Title:       "LEGO set",
-  Description: "4000 pieces",
-  Quantity:    1,
-  UnitPrice:   600,
- }
- row2 := Row{
-  Title:       "Plushy",
-  Description: "plush toy",
-  Quantity:    3,
-  UnitPrice:   5,
- }
+	row := Row{
+		Title:       "LEGO set",
+		Description: "4000 pieces",
+		Quantity:    1,
+		UnitPrice:   600,
+	}
+	row2 := Row{
+		Title:       "Plushy",
+		Description: "plush toy",
+		Quantity:    3,
+		UnitPrice:   5,
+	}
 
- basket := make([]Row, 0)
- basket = append(basket, row)
- basket = append(basket, row2)
+	basket := make([]Row, 0)
+	basket = append(basket, row)
+	basket = append(basket, row2)
 
- var sum int = 0
- for i := 0; i < len(basket); i++ {
-  current := basket[i]
-  fmt.Println(current)
-  sum += current.Quantity * int(current.UnitPrice)
- }
- fmt.Println("Total", sum)
+	fmt.Println("Title, Description, Quantity, Price per unit, Total")
+
+	var sum int = 0
+	for i := 0; i < len(basket); i++ {
+		current := basket[i]
+		fmt.Println(current.string())
+		sum += current.Quantity * int(current.UnitPrice)
+	}
+
+	fmt.Println("\nTotal: ", sum, "GBP")
 }
 
 ```

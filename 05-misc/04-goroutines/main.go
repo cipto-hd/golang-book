@@ -1,14 +1,14 @@
 package main
 
 import (
-	"io/ioutil"
 	"log"
+	"os"
 	"path/filepath"
 )
 
 func SearchFiles(dir string, lookFor string, ch chan string) {
 	log.Println("[SEARCHING] ", dir)
-	files, err := ioutil.ReadDir(dir)
+	files, err := os.ReadDir(dir)
 	if err != nil {
 		log.Fatal(err)
 	}

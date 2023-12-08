@@ -23,7 +23,7 @@ There's three methods of interest to handle such a case for us, namely `Trim()`,
 - `TrimLeft()`. It removes whitespace from the left side only, and if you specify special characters as well.
 - `TrimRight()`. It removes whitespace from the right side only, and if you specify special characters as well.
 
-All these functions above have as their second parameter a so called *cutset* parameter, where you specify what character you want to get rid of. You can for example specify to remove space, newline and tab characters like so:
+All these functions above have as their second parameter a so called _cutset_ parameter, where you specify what character you want to get rid of. You can for example specify to remove space, newline and tab characters like so:
 
 ```go
 " \n\t"
@@ -52,12 +52,12 @@ The above string has three whitespaces to the left and two to the right, giving 
 The output of the above code is:
 
 ```output
-  114   , string length 8 
-114 , string length 3 
-   114   , string length 8 
-114   , string length 5 
-   114   , string length 8 
-   114 , string length 6 
+  114   , string length 8
+114 , string length 3
+   114   , string length 8
+114   , string length 5
+   114   , string length 8
+   114 , string length 6
 ```
 
 Lets break down the output per row.
@@ -96,8 +96,8 @@ You can then for example use it to process a list from a point of sale system, a
 rows := []string{"order: 5", "order: 10", "order: 5", "separator"}
 
 
-for item :=  range rows {
-  if strings.Contains("order") {
+for _,item :=  range rows {
+  if strings.Contains(item, "order") {
     // process order
   }
   // ignore
@@ -111,8 +111,8 @@ Lets continue with processing rows from our point of sale system. This time, we 
 ```go
 rows := []string{"order: 5", "order: 10", "order: 5", "separator"}
 
-for item :=  range rows {
-  if strings.Contains("order") {
+for _, item :=  range rows {
+  if strings.Contains(item, "order") {
      tokens := strings.Split(item, ":") // [ "order", " 5"]
      value := strings.Trim(tokens[1])
      fmt.Println(value)
@@ -155,7 +155,7 @@ With `ToLower()` you ensure all characters are formatted as lowercase.
 
 ## Assignment
 
-Write a program that given a struct containing, name, address and city ensures that the name is lowercase and the address is uppercase.
+Write a program that given a struct containing name, address and city ensures that the name is lowercase and the address is uppercase.
 
 ## Solution
 
@@ -176,8 +176,8 @@ type Person struct {
 func main() {
  person := Person{Name: "jean Normand", Address: "123 Way", City: "Washington"}
 
- fmt.Println(strings.ToUpper(person.Name))
- fmt.Println(person.Address)
- fmt.Println(strings.ToUpper(person.City))
+ fmt.Println(strings.ToLower(person.Name))
+ fmt.Println(strings.ToUpper(person.Address))
+ fmt.Println(person.City)
 }
 ```

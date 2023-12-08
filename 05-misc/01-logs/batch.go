@@ -1,13 +1,12 @@
 package main
 
 import (
-	"io/ioutil"
 	"log"
 	"os"
 )
 
 func ProcessFile(path string) {
-	filebuffer, err := ioutil.ReadFile(path)
+	filebuffer, err := os.ReadFile(path)
 	if err != nil {
 		log.Fatal("Error: ", err)
 	}

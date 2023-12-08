@@ -24,10 +24,10 @@ You want to split up your app in many different files. Let's say you have the fo
 /app
   main.go
   /helper
-    helper.go 
+    helper.go
 ```
 
-What you are saying above is that your program consists of many files and that you want code in the fiile *main.go* to use code from *helper.go* for example.
+What you are saying above is that your program consists of many files and that you want code in the file _main.go_ to use code from _helper.go_ for example.
 
 To handle such a case, you need the following:
 
@@ -40,19 +40,19 @@ You can use `go mod init`, this will initialize your project.
 
 To create a project, you run `go mod init` and a name for a project, for example, "my-project":
 
-   ```bash
-   go mod init my-project
-   ```
+```bash
+go mod init my-project
+```
 
-   You end up with a *go.mod* file looking something like so:
+You end up with a _go.mod_ file looking something like so:
 
-   ```go
-   module my-project
+```go
+module my-project
 
-   go 1.16
-   ```
+go 1.16
+```
 
-   The *go.mod* file tells you the name of your project and the currently used version of Go. It can contain other things as well like libraries you are dependent on.
+The _go.mod_ file tells you the name of your project and the currently used version of Go. It can contain other things as well like libraries you are dependent on.
 
 ## The import statement
 
@@ -62,14 +62,14 @@ Imagine now we have this file structure in our project:
 /app
   main.go
   /helper
-    helper.go 
+    helper.go
 ```
 
-with *helper.go* looking like so:
+with _helper.go_ looking like so:
 
 ```go
 package helper
-    
+
 import "fmt"
 
 func Help() {
@@ -77,9 +77,9 @@ func Help() {
 }
 ```
 
-to use the public `Helper()` function from *main.go*, we need to import it.
+to use the public `Helper()` function from _main.go_, we need to import it.
 
-In *main.go* we need an import statement like so:
+In _main.go_ we need an import statement like so:
 
 ```go
 import (
@@ -87,7 +87,7 @@ import (
 )
 ```
 
-We are now able to invoke the `Help()` function from *main.go* like so:
+We are now able to invoke the `Help()` function from _main.go_ like so:
 
 ```go
 helper.Help()
@@ -99,25 +99,25 @@ In this assignment, you will create a project.
 
 1. Create a project like so:
 
-    ```go
-    go mod init my-project
-    ```
+   ```go
+   go mod init my-project
+   ```
 
-1. create the **helper** directory and *helper.go* file and give it the following content:
+1. create the **helper** directory and _helper.go_ file and give it the following content:
 
-    ```go
-    // helper.go
-    
-    package helper
-    
-    import "fmt"
-    
-    func Help() {
-     fmt.Println("This is a helper function")
-    }
-    ```
+   ```go
+   // helper.go
 
-1. Create the *main.go* file and give it the following content:
+   package helper
+
+   import "fmt"
+
+   func Help() {
+    fmt.Println("This is a helper function")
+   }
+   ```
+
+1. Create the _main.go_ file and give it the following content:
 
    ```go
    package main
@@ -125,7 +125,7 @@ In this assignment, you will create a project.
    import (
      "my-project/helper"
    )
-    
+
    func main() {
      helper.Help()
    }
@@ -167,4 +167,16 @@ func main() {
 
 ## Challenge
 
-See if you can create another function in *helper.go*, this time, make the function name lowercase, what happens if you try to import it?
+See if you can create another function in _helper.go_, this time, make the function name lowercase, what happens if you try to import it?
+
+## Trial (Please try by yourselft)
+
+It showed a message `undefined: helper.answer`. When the program was run, no error was spilled.
+
+helper/helper.go:
+
+![Alt text](image.png)
+
+main.go:
+
+![Alt text](image-1.png)

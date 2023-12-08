@@ -15,7 +15,7 @@ In this chapter you will:
 
 ## Concurrency, what's the benefit
 
-Concurrency is the task of running and managing the multiple computations at the same time. While *parallelism* is the task of running multiple computations simultaneously.
+Concurrency is the task of running and managing the multiple computations at the same time. While _parallelism_ is the task of running multiple computations simultaneously.
 
 So what are some benefits:
 
@@ -145,7 +145,7 @@ for i := 0 i< len(result); i++ {
 }
 ```
 
-If found, you will get an output similar to the below, depending on whether *myfile.txt* is found in any of the searched directories:
+If found, you will get an output similar to the below, depending on whether _myfile.txt_ is found in any of the searched directories:
 
 ```go
 [FOUND] ./tmp/myfile.txt
@@ -186,7 +186,7 @@ To create a channel, you need the keyword `chan` and the data type of the messag
 ch := make(chan int)
 ```
 
-In the above example, a channel `ch` will be created that accepts messages of type `int`. 
+In the above example, a channel `ch` will be created that accepts messages of type `int`.
 
 ### Sending a value to a channel
 
@@ -271,9 +271,9 @@ result = <-ch
 fmt.Println(result)
 ```
 
-At this point, your code will deadlock, like so: **fatal error: all goroutines are asleep - deadlock!**. Your code will never finish as that value will never arrive. 
+At this point, your code will deadlock, like so: **fatal error: all goroutines are asleep - deadlock!**. Your code will never finish as that value will never arrive.
 
-The lesson here is that you need to keep track of how many results you might get and only try to receive that many. 
+The lesson here is that you need to keep track of how many results you might get and only try to receive that many.
 
 There's another way to receive values, and that's by using a `select` like so:
 
@@ -288,7 +288,7 @@ for i := 0; i < 2; i++ {
  }
 ```
 
-The idea is to *match* the receiving of a value like so:
+The idea is to _match_ the receiving of a value like so:
 
 ```go
 case x, ok := <-ch:
@@ -315,7 +315,7 @@ However, when we close a channel, we need to test for it. If we attempt to recei
      break // channel is closed
    }
   }
-``` 
+```
 
 The value of `ok` is now false.
 
@@ -361,7 +361,7 @@ The output of running said code is:
 channel closed
 ```
 
-We can see how the `else` clause is matched on the third iteration. 
+We can see how the `else` clause is matched on the third iteration.
 
 Now, we might have more long running tasks, at which point we need to sit and wait until the channel tells us it closed. Here's code to handle that:
 
@@ -382,11 +382,84 @@ label:
 
 What's happening here is that we set up a for loop that runs forever, until closed. To ensure we break out of the for loop and not just the `select`, we add `label:`
 
-TODO, you can use range over the channel as well.
+### Using Range over Channel:
+
+You can use range over the channel as well. To use range over a channel, we first need to create a channel and send some values to it. We can then use the range keyword to receive values from the channel.
+
+```go
+package main
+
+import "fmt"
+
+func main() {
+  ch := make(chan int)
+  go func() {
+    ch <- 1
+    ch <- 2
+    // ch <- 3
+    close(ch)
+    fmt.Println("channel closed")
+  }()
+  // time.Sleep(1 * time.Second)
+
+  // Use range to receive values from the channel
+  for x := range ch {
+    fmt.Println(x)
+  }
+}
+
+```
+
+### Using Range over Buffered Channel
+
+We can also use range over buffered channels in Go. Buffered channels have a buffer that can hold a certain number of values. When we use range over a buffered channel, we will receive values until the buffer is empty.
+
+Here's an example:
+
+```go
+package main
+
+import "fmt"
+
+func main() {
+    // Create a buffered channel
+    ch := make(chan int, 2)
+
+    // Send some values to the channel
+    ch := make(chan int, 2)
+    ch_message := []int{1, 2, 3}
+
+    // Send some values to the channel
+    for x := range ch_message {
+      if len(ch) == 2 {
+        close(ch)
+        break
+      } else {
+        ch <- x
+      }
+    }
+
+    // Use range to receive values from the channel
+    for i := range ch {
+        fmt.Println(i)
+    }
+}
+```
+
+In this example, we create a buffered channel of type int with a buffer size of 2 using the make function. We then send two values, 1 and 2, to the channel.
+
+~~We then use the range keyword to receive values from the channel. Since the channel has a buffer size of 2, we will receive the first two values from the channel. When we receive the third value, the channel is empty and the range loop terminates.~~ It turns out that range still loop over `ch` eventhough channel is already empty and cause fatal error with message _fatal error: all goroutines are asleep - deadlock!_
+
+The output of this program will be:
+
+```terminal
+1
+2
+```
 
 ## Assignment - `SearchFiles()` with channels
 
-Let's take all our learning and add channels to the program we wrote containing a file searcher. 
+Let's take all our learning and add channels to the program we wrote containing a file searcher.
 
 ## Challenge
 

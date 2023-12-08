@@ -22,15 +22,15 @@ Go has a package `testing` that gives us two things to start out with:
 
 - a parameter for the test. The `testing` library exposes a `t *testing.T` parameter. By putting it as a parameter to a function, said function becomes a test.
 
-   ```go
-   func TestAdd(t *testing.T) {}
-   ```
+  ```go
+  func TestAdd(t *testing.T) {}
+  ```
 
 - a way to assert the result. `testing` also exposes `t.Errorf()`. By invoking it with a string, the test counts as failed. To pass a test you do nothing:
 
-   ```go
-   t.Errorf("Sum was incorrect, Actual: %d, Expected: %d", total, 4)
-   ```
+  ```go
+  t.Errorf("Sum was incorrect, Actual: %d, Expected: %d", total, 4)
+  ```
 
 Here's an example test function:
 
@@ -46,19 +46,19 @@ func TestAdd(t *testing.T) {
 
 - First, the code to test is called:
 
-   ```go
-   total := Add(2, 2)
-   ```
+  ```go
+  total := Add(2, 2)
+  ```
 
 - Secondly, the assertion is made, to see if it succeeded or failed:
 
-   ```go
-   if total != 4 {
-     t.Errorf("Sum was incorrect, Actual: %d, Expected: %d", total, 4)
-   }
-   ```
+  ```go
+  if total != 4 {
+    t.Errorf("Sum was incorrect, Actual: %d, Expected: %d", total, 4)
+  }
+  ```
 
-   if the result is not the expected, then `t.Errorf()` is called to state what's gone wrong.
+  if the result is not the expected, then `t.Errorf()` is called to state what's gone wrong.
 
 ## Your first test
 
@@ -70,7 +70,7 @@ math/
   math.go
 ```
 
-What you want to do next is to create a test file. You want to keep the test file as close to the code you want to test as possible. Because you want to test *math.go* you create `math_test.go` file in the math/ directory like so:
+What you want to do next is to create a test file. You want to keep the test file as close to the code you want to test as possible. Because you want to test _math.go_ you create `math_test.go` file in the math/ directory like so:
 
 ```output
 main.go
@@ -81,7 +81,7 @@ math/
 
 ### Authoring and running your first test
 
-Now that you have the file structure above, ensure the *math_test.go* file has the following content:
+Now that you have the file structure above, ensure the _math_test.go_ file has the following content:
 
 ```go
 package math
@@ -103,43 +103,43 @@ To run a test, you invoke the `go test` command. Here are different ways to run 
 
 - `go test`, runs the test in the current working directory. Here's what it looks like:
 
-   ```output
-   ok      test-example/math       0.258s
-   ```
+  ```output
+  ok      test-example/math       0.258s
+  ```
 
 - `go test -v`, runs a verbose version. Here's what it can look like:
 
-   ```output
-   === RUN   TestAdd
-    math_test.go:12: running TestAdd
+  ```output
+  === RUN   TestAdd
+   math_test.go:12: running TestAdd
 
-   --- PASS: TestAdd (0.00s)
-   PASS
-   ok      test-example/math       0.422s
-   ```
+  --- PASS: TestAdd (0.00s)
+  PASS
+  ok      test-example/math       0.422s
+  ```
 
-   In the verbose version, you see the name of the test and if it failed.
+  In the verbose version, you see the name of the test and if it failed.
 
-- `go test ./..`, recursive run. If you run the command like so it will run all the tests in the subfolders as well.
+- `go test ./...`, recursive run. If you run the command like so it will run all the tests in the subfolders as well.
 
 ## Control the test run
 
 There are ways to control how many tests are run. Here are some ways:
 
 - **Run test by pattern**. . You can provide a pattern to have Go run some of the tests, which matches it by a substring or even at a certain depth and more. Here's how:
-  
-    ```console
-    go test -run <pattern>
-    ```
+
+  ```console
+  go test -run <pattern>
+  ```
 
 - **Skip a test**. `t.Skip()` by calling this inside the test, the test is skipped.
 - **Run a single test**. You can run a single test by running a pattern that specifies the package and the name of the test, here's how:
 
-   ```console
-   go test -run TestAdd ./math
-   ```
+  ```console
+  go test -run TestAdd ./math
+  ```
 
-   Here's the package is called math and the name of the test is `TestAdd()`.
+  Here's the package is called math and the name of the test is `TestAdd()`.
 
 ## Coverage
 
@@ -187,3 +187,13 @@ There's a lot more to learn on testing with Go, have a look at package documenta
 ## Challenge
 
 Create a test for a piece of code you wrote. Run the test. See if you can produce a coverage report and implement any gaps pointed out by the report.
+
+## Hint
+
+Create test for Divide function
+then rerun:
+
+```console
+go test --coverprofile=c.out
+go tool cover -html=c.out
+```

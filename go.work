@@ -1,0 +1,10 @@
+go 1.21.1
+
+use (
+	./03-projects/01-first-project
+	./03-projects/02-consume-external
+	./03-projects/02-consume-external/log-tester
+	./03-projects/04-testing
+	./05-misc/05-sqlite
+	./06-io/fix
+)

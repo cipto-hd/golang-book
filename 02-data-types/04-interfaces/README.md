@@ -20,12 +20,12 @@ With structs, we can define properties we want a concept to have, like for examp
 
 ```go
 type Car struct {
-  make string 
+  make string
   model string
 }
 ```
 
-An interface is meant to communicate something different, a behaviour. Instead of describing the car itself, as a struct does, it describes what a car can do.  
+An interface is meant to communicate something different, a behaviour. Instead of describing the car itself, as a struct does, it describes what a car can do.
 
 ## Interface - describing a behaviour
 
@@ -73,7 +73,7 @@ func (r Rectangle) area() int {
 }
 
 func (r Rectangle) location() Point {
-  return P{ x: r.x, y: r.y }
+  return Point{ x: r.x, y: r.y }
 }
 ```
 
@@ -95,27 +95,27 @@ Ok, so we've fully implemented an interface, what does it allow me to do? Well, 
 
 - **Call properties and behaviour**. At this point, you are ready to create an instance and call both properties and methods (its new behaviour):
 
-   ```go
-   var rectangle Rectangle = Rectangle{x: 5, y: 2}
-   fmt.Println(rectangle.area()) // prints 10
-   ```
+  ```go
+  var rectangle Rectangle = Rectangle{x: 5, y: 2}
+  fmt.Println(rectangle.area()) // prints 10
+  ```
 
-   Great, our `Rectangle` type has both the properties `x` and `y` as well as the behaviour from `Shape`.
+  Great, our `Rectangle` type has both the properties `x` and `y` as well as the behaviour from `Shape`.
 
 - **Pass an interface**. Imagine you wanted to pass the behaviour to a function to make it flexible:
 
-   ```go
-   func printArea(shape Shape) {
-     fmt.Println(shape.area())
-   }
-   ```
+  ```go
+  func printArea(shape Shape) {
+    fmt.Println(shape.area())
+  }
+  ```
 
-   To make that happen, lets change slightly how we construct our `Rectangle instance`:
+  To make that happen, lets change slightly how we construct our `Rectangle instance`:
 
-   ```go
-   var shape Shape = Rectangle{x: 5, y: 2}
-   printArea(rectangle) // prints 10
-   ```
+  ```go
+  var rectangle Shape = Rectangle{x: 5, y: 2}
+  printArea(rectangle) // prints 10
+  ```
 
 ### Implement `Square`
 
@@ -127,7 +127,7 @@ type Square struct {
 }
 
 func (s Square) area() int {
-  return s.square * s.square
+  return s.side * s.side
 }
 func (s Square) location() Point {
   return Point{x: s.side, y: s.side}
@@ -219,7 +219,7 @@ var shape Shape = Rectangle{x: 5, y: 2}
 fmt.Println(shape.x) // shape.x undefined (type Shape has no field or method x)
 ```
 
-Ok, not working, we need to find a way to reach the underlying fields. We can use something called *type assertion* like so:
+Ok, not working, we need to find a way to reach the underlying fields. We can use something called _type assertion_ like so:
 
 ```go
 var shape Shape = Rectangle{x: 5, y: 2}
@@ -284,7 +284,7 @@ and your code now does what it's supposed to.
 Start with the following code:
 
 ```go
-package main 
+package main
 
 type Point struct {
  x float32

@@ -13,20 +13,20 @@ In this chapter you will learn to:
 
 ## Read a text file
 
-One approach could be using the `ioutil` library and its `ReadFile()` method like so:
+One approach could be using the `os` library and its `ReadFile()` method like so:
 
 ```go
   import (
-    "io/ioutil"
+    "os"
     "log"
   )
   func main() {
-    filebuffer, err := ioutil.ReadFile(path)
- 
+    filebuffer, err := os.ReadFile(path)
+
     if err != nil {
       log.Fatal(err)
     }
-    var inputdata string = string(filebuffer) 
+    var inputdata string = string(filebuffer)
   }
 ```
 
@@ -45,7 +45,7 @@ For this scenario, we can use the `os` library and a combination of the `Create(
  import (
   "os"
   "log"
- ) 
+ )
 
  f, err := os.Create(path)
  if err != nil {
@@ -87,7 +87,7 @@ f.WriteString("my text \n")
 
 ## Assignment
 
-Imagine you have a file *invoices.csv* looking like so:
+Imagine you have a file _invoices.csv_ looking like so:
 
 ```text
 customer, amount, date
